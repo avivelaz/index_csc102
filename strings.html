@@ -1,117 +1,104 @@
-<!--Author: Avismel Velazco --> 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Input Validation</title>
+    <Title>Palindrome Checker</Title>
+
+    <!-- Comment: Adding my name at the top of the HTML file -->
+    <!-- Name:[Avismel Velazco] -->
+
+    <!-- Link to Google Fonts for custom font -->
+    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=TimeNewRoman:wght@350;700&display=swap">
+
+    <!-- Internal CSS for styling the page -->
     <style>
-        /* Background color for the entire page */
         body {
-            background-color: cornflowerblue;
-            font-family: 'Times New Roman', Times, serif, sans-serif;
+            font-family: 'TimeNewRoman', sans-serif;
+            background-color: cornflowerblue; /* Light blue background */
+            color: beige; /* Dark text color */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 95vh;
             margin: 0;
+            flex-direction: column;
         }
-        /* Styling the form container */
-        .form-container {
-            background-color: beige;
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: 300px;
-            text-align: center;
+
+        h1 {
+        font-size: 3.0rem;
         }
-        /* Styling the input fields and submit button */
-        input[type="text"] {
-            width: calc(100% - 25px);
-            padding: 15px;
-            margin: 15px 0;
-            border: 2px solid #ccc;
-            border-radius: 6px;
-        }
-        input[type="submit"] {
-            background-color: burlywood;
-            color:whitesmoke;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-        /* Styling for the warning message */
-        .warning {
-            color: red;
-            font-weight: bold;
-        }
-        /* Image styling */
-        .image {
-            margin-top: 20px;
-        }
+
+        #image-container {
+           margin-top: 25px;
+        }  
+
+        img {
+            width: 200px;
+            height: auto;
+        }  
+
+        .button {
+        padding: 10px 20px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        background-color: burlywood;
+        color: whitesmoke;
+        border: none;
+        border-radius: 5px;
+        margin-top: 10px;        
+    }
+
     </style>
-</head>
+    </head>
 <body>
 
-<!-- Form container to hold all input fields and the submit button -->
-<div class="form-container">
-    <h2>User Information</h2>
-    <!-- Form tag that contains all input fields and the submit button -->
-    <form id="userForm" onsubmit="return validateForm()">
-        <!-- Input field for first name -->
-        <input type="text" id="firstName" name="firstName" placeholder="First Name">
-        <!-- Input field for last name -->
-        <input type="text" id="lastName" name="lastName" placeholder="Last Name">
-        <!-- Input field for zip code -->
-        <input type="text" id="zipCode" name="zipCode" placeholder="Zip Code">
-        <!-- Submit button to validate the form -->
-        <input type="submit" value="Submit">
-        <!-- Paragraph to display warning messages -->
-        <p id="warning" class="warning"></p>
-    </form>
-    <!-- Hidden secret message that will be revealed upon successful validation -->
-    <div id="secretMessage" style="display: none;">
-        <p>Congratulations! You've successfully entered valid information.</p>
-        <!-- Image to enhance user experience -->
-        <img src="https://via.placeholder.com/150" alt="Secret Image" class="image">
+    <!-- Main Heading of the page -->
+    <h1> Palindrome Checker</h1>
+
+    <!-- Button to star the palindrome check loop -->
+    <button class="button" onclick="checkPalindrome()">Check a Palindrome</button>
+
+    <!--Container for an image -->
+    <div id="image-container">
+        <img src="https://via.placeholder.com/150"alt="Sample Image">
     </div>
-</div>
+   
+    <!-- Javascript code to handle the Palindrome checking logic -->
+    <script>
+         // Function to check if a string is a palindrome
+         function isPalindrome(str) {
+            // Remove all non-alphanumeric characters and convert to lowercase
+            var cleanedStr = str.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
+            // Compare the cleaned string with its reverse
+            return cleanedStr === cleanedStr.split('').reverse().join('');
+        }
 
-<script>
-    // Function to validate the form inputs
-    function validateForm() {
-        // Get the values from the input fields
-        var firstName = document.getElementById("firstName").value;
-        var lastName = document.getElementById("lastName").value;
-        var zipCode = document.getElementById("zipCode").value;
-        // Combine first name and last name with a space
-        var fullName = firstName + " " + lastName;
+        // Function to handle the palindrome checking loop
+        function checkPalindrome() {
+            while (true) {
+                // Prompt the user to enter a string
+                var userInput = prompt("Enter a word or phrase:");
+
+                // If the user cancels the prompt or enters an empty string, exit the loop
+                if (userInput === null || userInput.trim() === "") {
+                    alert("Exiting the palindrome checker.");
+                    break;
+                }
+
+                // Check if the user input is a palindrome and notify the user
+                if (isPalindrome(userInput)) {
+                    alert(`"${userInput}" is a palindrome!`);
+                } else {
+                    alert(`"${userInput}" is not a palindrome.`);
+                }
+
+                // Ask the user if they want to check another string
+                var again = confirm("Do you want to check another word or phrase?");
+                // If the user does not want to check another string, exit the loop
+                if (!again) {
+                    break;
+                    }
+                }
+            }
         
-        // Check if the full name is longer than 20 characters
-        if (fullName.length > 20) {
-            // Display a warning message and prevent form submission
-            document.getElementById("warning").textContent = "Full name must be 20 characters or less.";
-            return false;
-        }
+    </script>
 
-        // Check if the zip code is a 5-digit number
-        var zipCodePattern = /^\d{5}$/;
-        if (!zipCodePattern.test(zipCode)) {
-            // Display a warning message and prevent form submission
-            document.getElementById("warning").textContent = "Zip code must be exactly 5 digits.";
-            return false;
-        }
-
-        // If all inputs are valid, hide the warning message and show the secret message
-        document.getElementById("warning").textContent = "";
-        document.getElementById("secretMessage").style.display = "block";
-        return false; // Prevent actual form submission for demonstration purposes
-    }
-</script>
-
-</body>
 </html>
